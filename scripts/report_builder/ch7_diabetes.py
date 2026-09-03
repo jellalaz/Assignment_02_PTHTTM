@@ -156,9 +156,31 @@ plt.show()'''
         ml_implication="Độ chính xác (Accuracy) hoàn toàn bị vô hiệu hóa vì một mô hình tầm thường đoán tất cả là Không mắc bệnh vẫn đạt Accuracy 91.5%. Bắt buộc phải kích hoạt class_weight='balanced', stratify khi chia tập và lấy Recall/ROC-AUC làm độ đo tối thượng."
     )
 
+
+    code_feat_dist = '''# Vẽ Histogram cho toàn bộ các biến số học (Tuổi, BMI, Glucose...)
+fig, axes = plt.subplots(3, 3, figsize=(15, 12))
+for i, col in enumerate(numerical_cols):
+    ax = axes[i // 3, i % 3]
+    sns.histplot(df[col], kde=True, ax=ax, color='teal')
+    ax.set_title(f'Phân bố của {col}')
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_feat_dist,
+        caption_text="Đoạn mã 7.5. Trực quan hóa phân bố các biến lâm sàng bằng vòng lặp.",
+        description_items=[
+            "Đoạn mã sử dụng vòng lặp for để tự động vẽ Histogram và đường KDE cho tất cả các biến số học.",
+            "Cách tiếp cận này giúp tiết kiệm thời gian viết code lặp lại, đồng thời tạo ra mạng lưới biểu đồ tổng quan (Grid plot) được trình bày ở nhóm hình bên dưới."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/diabetes/age_distribution.png",
+
         "Hình 7.2. Phân bố độ tuổi của bệnh nhân theo tình trạng bệnh.",
         [
             "Độ tuổi của nhóm mắc bệnh tiểu đường tập trung rất dày đặc ở khoảng 50 – 80 tuổi, với đỉnh phân bố quanh 60 tuổi.",
@@ -192,9 +214,31 @@ plt.show()'''
         ml_implication="Đây là cặp đặc trưng có khả năng phân tách tuyến tính mạnh nhất. Một lát cắt siêu phẳng trong không gian 2 chiều này đã có thể phân loại đúng hơn 85% mẫu bệnh."
     )
 
+
+    code_corr = '''# Tính toán và vẽ Ma trận tương quan (Pearson Correlation)
+plt.figure(figsize=(10, 8))
+corr_matrix = df_clean[numerical_cols + [target_col]].corr()
+
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="Blues")
+plt.title("Ma trận tương quan Pearson giữa các biến lâm sàng")
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_corr,
+        caption_text="Đoạn mã 7.6. Tính toán ma trận tương quan Pearson.",
+        description_items=[
+            "Hàm .corr() của Pandas mặc định tính toán hệ số tương quan Pearson giữa các biến số.",
+            "sns.heatmap hiển thị hệ số bằng màu sắc (Blues), giúp dễ dàng phát hiện mức độ phụ thuộc tuyến tính mạnh giữa 'glucose', 'HbA1c' với biến mục tiêu."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/diabetes/correlation_heatmap.png",
+
         "Hình 7.5. Ma trận hệ số tương quan giữa các thuộc tính lâm sàng và biến mục tiêu.",
         [
             "Hai biến có hệ số tương quan Pearson cao nhất với nhãn diabetes là blood_glucose_level (r = 0.42) và HbA1c_level (r = 0.41).",
@@ -251,9 +295,38 @@ print(classification_report(y_val, y_pred))'''
         align_cols=[WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.CENTER]
     )
 
+
+    code_model_comp = '''# Vẽ biểu đồ so sánh hiệu năng các mô hình
+df_metrics = pd.DataFrame(results).T
+
+fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+metrics = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
+colors = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2']
+
+for idx, metric in enumerate(metrics):
+    ax = axes[idx // 2, idx % 2]
+    df_metrics[metric].plot(kind='bar', ax=ax, color=colors[idx])
+    ax.set_title(f'So sánh {metric}')
+    ax.set_ylim(0, 1)
+
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_model_comp,
+        caption_text="Đoạn mã 7.7. Trực quan hóa kết quả so sánh các mô hình học máy.",
+        description_items=[
+            "Các chỉ số Accuracy, Precision, Recall và F1-Score của 5 mô hình được lưu vào một pandas DataFrame.",
+            "Vòng lặp tự động gọi hàm .plot(kind='bar') để so sánh trực quan hiệu năng, cho phép người đọc nhận thấy sự vượt trội về Recall của Random Forest ở nhóm hình bên dưới."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/diabetes/model_comparison.png",
+
         "Hình 7.6. Biểu đồ so sánh hiệu năng các mô hình phân loại bệnh tiểu đường trên tập Validation.",
         [
             "Mô hình Random Forest và Decision Tree áp đảo hoàn toàn về chỉ số Recall (>91%), vượt trội so với KNN và SVM vốn chỉ đạt Recall quanh 62%.",
