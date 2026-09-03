@@ -208,7 +208,7 @@ Kiểm tra nạp lại (`joblib.load`) và suy luận tức thời bảo đảm 
 
 ### 6.3. Giao diện Web Responsive & Client Mobile qua LAN
 - Thiết kế giao diện hiện đại phong cách Dark Mode Glassmorphism tại `web/templates/index.html` và `web/static/css/style.css`.
-- **Lưu ý về truy cập LAN:** Máy chủ đã được khởi chạy với host `0.0.0.0` để mở cổng ra toàn mạng. Nếu chỉ sử dụng URL `http://127.0.0.1:8000/` (localhost), thì thiết bị hoặc máy tính khác **không thể** truy cập được. Để thiết bị di động hoặc máy tính khác cùng LAN truy cập được web, người dùng phải nhập địa chỉ IPv4 thực của máy chủ (ví dụ: `http://192.168.x.x:8000/`). Toàn bộ client code đã dùng URL tương đối (relative path) nên API sẽ hoạt động hoàn hảo bất chấp đổi IP mạng.
+- **Lưu ý về truy cập LAN:** Máy chủ đã được khởi chạy với host `0.0.0.0` để mở cổng ra toàn mạng. Nếu chỉ sử dụng URL `http://127.0.0.1:8000/` (localhost), thì thiết bị hoặc máy tính khác **không thể** truy cập được. Để thiết bị di động hoặc máy tính khác cùng LAN truy cập được web, người dùng phải nhập địa chỉ IPv4 thực của máy chủ (ví dụ: `http://172.18.2.105:8000/`). Toàn bộ client code đã dùng URL tương đối (relative path) nên API sẽ hoạt động hoàn hảo bất chấp đổi IP mạng.
 - Giao diện đáp ứng tiêu chuẩn Mobile-First (khung nhìn 390x844), bố cục 1 cột, không tràn khung ngang.
 
 ---
