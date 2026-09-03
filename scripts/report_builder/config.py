@@ -239,3 +239,47 @@ def add_styled_table(doc, caption_text, headers, data, col_widths=None, align_co
                     row.cells[i].width = Inches(w)
                     
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
+
+def add_code_snippet_with_notes(doc, code_text, caption_text, description_items, source_file=None):
+    p_cap = doc.add_paragraph()
+    p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_cap.paragraph_format.space_before = Pt(8)
+    p_cap.paragraph_format.space_after = Pt(2)
+    p_cap.paragraph_format.keep_with_next = True
+    r_cap = p_cap.add_run(caption_text)
+    r_cap.font.name = "Times New Roman"
+    r_cap.font.size = Pt(11)
+    r_cap.font.bold = True
+    r_cap.font.italic = True
+    r_cap.font.color.rgb = COLOR_DARK_GRAY
+    
+    add_code_block(doc, code_text)
+    
+    p_desc = doc.add_paragraph()
+    p_desc.paragraph_format.space_before = Pt(2)
+    p_desc.paragraph_format.space_after = Pt(2)
+    r_dt = p_desc.add_run("Mô tả:")
+    r_dt.font.name = "Times New Roman"
+    r_dt.font.size = Pt(11.5)
+    r_dt.font.bold = True
+    r_dt.font.italic = True
+    
+    for item in description_items:
+        add_bullet_p(doc, item)
+        
+    if source_file:
+        p_src = doc.add_paragraph()
+        p_src.paragraph_format.left_indent = Inches(0.25)
+        p_src.paragraph_format.space_before = Pt(0)
+        p_src.paragraph_format.space_after = Pt(4)
+        r_src_label = p_src.add_run("Nguồn: ")
+        r_src_label.font.name = "Times New Roman"
+        r_src_label.font.size = Pt(11)
+        r_src_label.font.italic = True
+        
+        r_src_code = p_src.add_run(source_file)
+        r_src_code.font.name = "Consolas"
+        r_src_code.font.size = Pt(10)
+        r_src_code.font.color.rgb = COLOR_DARK_GRAY
+        
+    doc.add_paragraph().paragraph_format.space_after = Pt(4)

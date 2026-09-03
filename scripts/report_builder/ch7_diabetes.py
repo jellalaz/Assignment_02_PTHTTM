@@ -5,7 +5,7 @@ Chapter VII: Application 1 — Diabetes Risk Prediction
 
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from .config import (
-    add_styled_heading, add_body_p, add_bullet_p, add_code_block,
+    add_styled_heading, add_body_p, add_bullet_p, add_code_block, add_code_snippet_with_notes,
     add_styled_table, add_figure_with_notes
 )
 
@@ -89,6 +89,27 @@ def build_chapter_7(doc):
     add_body_p(doc, "Kiểm tra miền giá trị cho thấy: age dao động từ 0.08 đến 80 tuổi (hợp lệ cho cả bệnh nhi và người cao tuổi); bmi tối thiểu 10.01 đến tối đa 95.69 kg/m²; glucose từ 80 đến 300 mg/dL đều nằm trong giới hạn sinh lý con người. Cột gender ghi nhận 18 ca nhãn 'Other' (<0.02%), được giữ lại và mã hóa nhị phân bình thường.")
 
     add_styled_heading(doc, "7.5. Biểu diễn dữ liệu", 2)
+    add_body_p(doc, "Dữ liệu được chuyển đổi thành các vector số học trước khi đưa vào mô hình học máy:")
+    
+    code_diab_preprocess = '''num_transformer = StandardScaler()
+cat_transformer = OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore')
+
+preprocessor = ColumnTransformer(transformers=[
+    ('num', num_transformer, num_cols),
+    ('cat', cat_transformer, cat_cols)
+])'''
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_diab_preprocess,
+        caption_text="Đoạn mã 7.1. Tiền xử lý và biểu diễn dữ liệu cho Diabetes Prediction.",
+        description_items=[
+            "Đoạn mã xây dựng ColumnTransformer để xử lý song song các nhóm biến.",
+            "Áp dụng StandardScaler cho các biến số học (tuổi, bmi, glucose) và OneHotEncoder cho các biến danh mục (giới tính, hút thuốc).",
+            "Kết quả của bước này trực tiếp tạo ra không gian vector chuẩn hóa dùng để huấn luyện mô hình."
+        ],
+        source_file="src/diabetes/pipeline.py"
+    )
+
     add_body_p(doc, "Không gian biểu diễn số học được kiến tạo từ hai phân nhóm đặc trưng thông qua ColumnTransformer:")
     add_bullet_p(doc, "Gồm 6 biến: age, bmi, HbA1c_level, blood_glucose_level, hypertension, heart_disease → Áp dụng StandardScaler Z-score → Tạo ra 6 chiều số thực.", bold_prefix="Đặc trưng số học (Numerical): ")
     add_bullet_p(doc, "Gồm gender (loại Female, giữ lại Male và Other → 2 chiều) và smoking_history (loại No Info, giữ lại current, ever, former, never, not current → 5 chiều) → Áp dụng OneHotEncoder(drop='first') → Tạo ra 7 chiều nhị phân.", bold_prefix="Đặc trưng danh mục (Categorical): ")
@@ -163,6 +184,32 @@ def build_chapter_7(doc):
     )
 
     add_styled_heading(doc, "7.7. Xây dựng mô hình", 2)
+    
+    code_diab_train = '''model = RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=42)
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', model)
+])
+
+# Huấn luyện toàn bộ Pipeline
+pipeline.fit(X_train, y_train)
+
+# Dự đoán và Đánh giá trên tập Validation
+y_pred = pipeline.predict(X_val)
+print(classification_report(y_val, y_pred))'''
+    
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_diab_train,
+        caption_text="Đoạn mã 7.2. Huấn luyện và đánh giá mô hình phân loại.",
+        description_items=[
+            "Tích hợp tiền xử lý (preprocessor) và thuật toán (RandomForest) vào chung một Pipeline duy nhất.",
+            "Tham số class_weight='balanced' được sử dụng để khắc phục tình trạng mất cân bằng nhãn (Imbalanced Data).",
+            "Đoạn mã này sinh ra trực tiếp các chỉ số đánh giá Recall, F1-Score được trình bày trong bảng kết quả bên dưới."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_body_p(doc, "Tập dữ liệu sạch 96,146 mẫu được phân chia stratified thành: 67,302 mẫu Train (70%), 14,422 mẫu Validation (15%) và 14,422 mẫu Test (15%). Mô hình Baseline DummyClassifier được đưa vào đối đầu trực tiếp cùng 5 thuật toán học máy phân lớp phổ biến.")
 
     add_styled_heading(doc, "7.8. Đánh giá mô hình", 2)

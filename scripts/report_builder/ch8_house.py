@@ -5,7 +5,7 @@ Chapter VIII: Application 2 — House Price Prediction
 
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from .config import (
-    add_styled_heading, add_body_p, add_bullet_p, add_code_block,
+    add_styled_heading, add_body_p, add_bullet_p, add_code_block, add_code_snippet_with_notes,
     add_styled_table, add_figure_with_notes
 )
 
