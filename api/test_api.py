@@ -39,7 +39,7 @@ def test_predict_diabetes_high_risk(client):
     assert response.status_code == 200
     data = response.json()
     assert data["prediction"] == 1
-    assert "Diabetic" in data["diagnosis"]
+    assert "mắc bệnh" in data["diagnosis"]
     assert 0.0 <= data["probability"] <= 1.0
 
 
@@ -58,7 +58,7 @@ def test_predict_diabetes_low_risk(client):
     assert response.status_code == 200
     data = response.json()
     assert data["prediction"] == 0
-    assert "Non-Diabetic" in data["diagnosis"]
+    assert "Không thuộc nhóm" in data["diagnosis"]
     assert data["probability"] < 0.5
 
 
@@ -102,7 +102,7 @@ def test_predict_ecommerce_positive(client):
     assert response.status_code == 200
     data = response.json()
     assert data["recommended"] == 1
-    assert "Recommended" in data["recommendation_label"]
+    assert "Khách hàng có khả năng đề xuất sản phẩm" in data["recommendation_label"]
     assert data["confidence"] > 0.5
 
 
@@ -120,5 +120,5 @@ def test_predict_ecommerce_negative(client):
     assert response.status_code == 200
     data = response.json()
     assert data["recommended"] == 0
-    assert "Not Recommended" in data["recommendation_label"]
+    assert "Khách hàng có khả năng không đề xuất sản phẩm" in data["recommendation_label"]
     assert data["confidence"] < 0.5
