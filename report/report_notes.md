@@ -11,6 +11,11 @@
 
 ## TÓM TẮT DỰ ÁN (EXECUTIVE SUMMARY)
 
+> [!IMPORTANT]
+> **🌟 LIÊN KẾT DỰ ÁN TRỰC TUYẾN 🌟**
+> - **🌐 Web App Đã Triển Khai (Render):** [https://assignment-02-pthttm.onrender.com/](https://assignment-02-pthttm.onrender.com/)
+> - **💻 Kho Mã Nguồn (GitHub):** [https://github.com/jellalaz/Assignment_02_PTHTTM](https://github.com/jellalaz/Assignment_02_PTHTTM)
+
 Dự án này hoàn thành trọn vẹn toàn bộ chuỗi phát triển hệ thống thông minh theo tiêu chuẩn:
 $$\text{Raw Data} \longrightarrow \text{Understand} \longrightarrow \text{Clean} \longrightarrow \text{Represent} \longrightarrow \text{Learn} \longrightarrow \text{Evaluate} \longrightarrow \text{Persist} \longrightarrow \text{Deploy}$$
 

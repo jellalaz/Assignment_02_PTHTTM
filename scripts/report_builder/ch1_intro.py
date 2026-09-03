@@ -8,9 +8,14 @@ from .config import (
 )
 
 def build_chapter_1(doc):
-    add_styled_heading(doc, "CHƯƠNG I. GIỚI THIỆU BÀI TOÁN", 1)
+    add_styled_heading(doc, "CHƯƠNG I. TỔNG QUAN HỆ THỐNG VÀ BÀI TOÁN THỰC TẾ", 1)
 
-    add_styled_heading(doc, "1.1. Bối cảnh", 2)
+    # Thêm Liên kết dự án
+    add_styled_heading(doc, "LIÊN KẾT DỰ ÁN TRỰC TUYẾN", 2)
+    add_bullet_p(doc, "https://assignment-02-pthttm.onrender.com/", bold_prefix="Web App Đã Triển Khai (Render): ")
+    add_bullet_p(doc, "https://github.com/jellalaz/Assignment_02_PTHTTM", bold_prefix="Kho Mã Nguồn (GitHub): ")
+
+    add_styled_heading(doc, "1.1. Lời mở đầu", 2)
     add_body_p(doc, "Trong thời đại cách mạng công nghiệp 4.0 và sự bùng nổ của trí tuệ nhân tạo (AI), việc khai phá tri thức tiềm ẩn từ các kho dữ liệu khổng lồ đã trở thành năng lực cốt lõi đối với mọi tổ chức và doanh nghiệp. Từ các bệnh viện cần công cụ hỗ trợ sàng lọc sớm bệnh lý hiểm nghèo, các công ty bất động sản cần hệ thống định giá nhà đất minh bạch, cho đến các sàn thương mại điện tử cần thấu hiểu tâm tư, nguyện vọng của khách hàng để tối ưu hóa trải nghiệm mua sắm — tất cả đều dựa trên nền tảng của các mô hình học máy (Machine Learning).")
     add_body_p(doc, "Tuy nhiên, trong thực tế phát triển phần mềm, một quan niệm sai lầm phổ biến là đồng nhất 'xây dựng hệ thống thông minh' với việc 'huấn luyện một thuật toán học máy'. Trên thực tế, thuật toán học máy chỉ là một mắt xích nhỏ nằm ở trung tâm của một chuỗi cung ứng kỹ thuật phức tạp. Một mô hình toán học dù có độ chính xác cao đến đâu trong môi trường nghiên cứu thực nghiệm cũng sẽ trở nên vô giá trị nếu không thể tiếp nhận dữ liệu thực tế, không thể triển khai trên hạ tầng mạng và không mang lại trải nghiệm tương tác trực quan cho người dùng cuối.")
     add_body_p(doc, "Nguyên lý cơ bản được nhấn mạnh trong học phần 'Phát triển các Hệ thống Thông minh' là: Dữ liệu thực tế không bao giờ tồn tại sẵn dưới dạng số học hoàn hảo. Dữ liệu thô từ thế giới thực luôn chứa đựng sự nhiễu loạn, khuyết thiếu, dị biệt về thang đo và cấu trúc đa phương thức (dạng bảng kết hợp văn bản tự do). Do đó, cây cầu nối quyết định tính sống còn của toàn bộ hệ thống chính là quá trình Biểu diễn Dữ liệu (Data Representation) kết hợp cùng đường ống tiền xử lý (Preprocessing Pipeline) chuẩn mực khoa học.")
