@@ -122,9 +122,31 @@ preprocessor = ColumnTransformer(transformers=[
     add_styled_heading(doc, "7.6. Phân tích khám phá dữ liệu (EDA)", 2)
     add_body_p(doc, "Năm biểu đồ phân tích chuyên sâu được trực quan hóa để bóc tách các quy luật dịch tễ học then chốt:")
 
+
+    code_diab_dist = '''# Trực quan hóa phân bố nhãn (Target Distribution)
+plt.figure(figsize=(6, 4))
+sns.countplot(data=df, x='diabetes', palette='Set2')
+plt.title("Phân bố bệnh nhân Tiểu đường (Mất cân bằng nhãn)")
+plt.xlabel("0: Không mắc bệnh | 1: Mắc bệnh")
+plt.ylabel("Số lượng bệnh nhân")
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_diab_dist,
+        caption_text="Đoạn mã 7.4. Trực quan hóa phân bố biến mục tiêu bằng CountPlot.",
+        description_items=[
+            "Sử dụng sns.countplot để thống kê nhanh số lượng bệnh nhân theo từng nhãn.",
+            "Code trực tiếp bộc lộ rõ ràng sự mất cân bằng nghiêm trọng giữa nhãn 0 và nhãn 1, từ đó định hướng cho việc phải sử dụng class_weight='balanced' khi huấn luyện."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/diabetes/target_distribution.png",
+
         "Hình 7.1. Phân bố biến mục tiêu Diabetes trong tập dữ liệu.",
         [
             "Tập dữ liệu sạch gồm 87,976 mẫu âm tính (Lớp 0 - chiếm 91.5%) và 8,170 mẫu dương tính (Lớp 1 - chiếm 8.5%).",

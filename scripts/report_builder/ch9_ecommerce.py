@@ -85,9 +85,40 @@ def build_chapter_9(doc):
         ml_implication="Độ dài văn bản và số lượng từ vựng phàn nàn là những tín hiệu định lượng bổ sung đắt giá."
     )
 
+
+    code_ecom_kw = '''# Lấy danh sách từ vựng và tần suất (Top Keywords)
+feature_names = tfidf_vectorizer.get_feature_names_out()
+sums = X_tfidf.sum(axis=0)
+
+# Chuyển đổi thành DataFrame và sắp xếp
+data = []
+for col, term in enumerate(feature_names):
+    data.append( (term, sums[0, col]) )
+ranking = pd.DataFrame(data, columns=['term','rank'])
+top_keywords = ranking.sort_values('rank', ascending=False).head(20)
+
+# Vẽ biểu đồ Barplot
+plt.figure(figsize=(10, 6))
+sns.barplot(x='rank', y='term', data=top_keywords, palette='viridis')
+plt.title("Top 20 cụm từ xuất hiện nhiều nhất (TF-IDF Weight)")
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_ecom_kw,
+        caption_text="Đoạn mã 9.3. Khai thác và trực quan hóa Top 20 từ khóa từ ma trận TF-IDF.",
+        description_items=[
+            "Sử dụng hàm get_feature_names_out() để trích xuất các từ vựng sau khi xử lý ngôn ngữ tự nhiên.",
+            "Tính tổng trọng số TF-IDF của từng từ khóa trên toàn bộ kho văn bản và dùng sns.barplot để trực quan hóa những từ mang tính quyết định nhất (như 'love', 'great', 'perfect')."
+        ],
+        source_file="notebooks/03_ecommerce.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/ecommerce/top_keywords_tfidf.png",
+
         "Hình 9.3. Top các từ khóa TF-IDF đặc trưng nhất trong đánh giá khách hàng.",
         [
             "Các từ khóa mang trọng số tích cực cao nhất: 'love', 'perfect', 'flattering', 'comfortable', 'great fit', 'beautiful'.",

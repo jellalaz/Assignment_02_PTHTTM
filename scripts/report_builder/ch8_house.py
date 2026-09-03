@@ -88,9 +88,31 @@ def build_chapter_8(doc):
     add_styled_heading(doc, "8.6. Phân tích khám phá dữ liệu (EDA)", 2)
     add_body_p(doc, "Bốn đồ thị phân tích sâu sắc mối tương quan kinh tế giữa các thuộc tính:")
 
+
+    code_house_dist = '''# Vẽ phân bố giá bán (Histogram + KDE)
+plt.figure(figsize=(8, 5))
+sns.histplot(df['Price'], bins=50, kde=True, color='skyblue')
+plt.title("Phân bố Giá bán Bất động sản (House Price Distribution)")
+plt.xlabel("Giá bán")
+plt.ylabel("Tần suất")
+plt.tight_layout()
+plt.show()'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_house_dist,
+        caption_text="Đoạn mã 8.3. Trực quan hóa phân bố biến liên tục bằng Histogram và đường KDE.",
+        description_items=[
+            "Sử dụng sns.histplot kết hợp tham số kde=True để vẽ biểu đồ phân bố tần suất và đường cong mật độ ước lượng.",
+            "Đoạn mã giúp phát hiện hiện tượng phân bố lệch phải (Right-skewed) của giá nhà, từ đó hiểu rõ hơn về đặc tính dữ liệu thị trường thực tế."
+        ],
+        source_file="notebooks/02_house_price.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/house_price/price_distribution.png",
+
         "Hình 8.1. Phân bố giá trị bất động sản (Price) trong tập dữ liệu.",
         [
             "Đồ thị tần số và đường cong mật độ thể hiện dạng chuông chuẩn mực hình chuông Gauss.",
