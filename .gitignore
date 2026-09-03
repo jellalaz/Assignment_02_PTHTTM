@@ -1,0 +1,41 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Data
+# Ignore raw data to avoid bloating the repo
+data/raw/
+!data/raw/.gitkeep
+
+# Ignore temp media or test files
+test_chrome*.png
+
+# Ignore Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Do NOT ignore these important directories:
+# !models/
+# !figures/
+# !screenshots/
+# !notebooks/
+# !report/

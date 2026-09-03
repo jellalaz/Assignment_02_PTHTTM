@@ -1,0 +1,47 @@
+{
+  "dataset_name": "House Price Prediction Dataset",
+  "raw_shape": [
+    2000,
+    16
+  ],
+  "clean_shape": [
+    2000,
+    16
+  ],
+  "encoded_features_dim": 23,
+  "feature_names_out": [
+    "num__Area",
+    "num__Bedrooms",
+    "num__Bathrooms",
+    "num__Stories",
+    "num__Parking",
+    "num__Age",
+    "num__Locality Rating",
+    "cat__City_Chennai",
+    "cat__City_Delhi",
+    "cat__City_Hyderabad",
+    "cat__City_Kolkata",
+    "cat__City_Mumbai",
+    "cat__City_Pune",
+    "cat__Furnishing_Semi-Furnished",
+    "cat__Furnishing_Unfurnished",
+    "cat__Main Road_Yes",
+    "cat__Guest Room_Yes",
+    "cat__Basement_Yes",
+    "cat__Water Supply_Both",
+    "cat__Water Supply_Corporation",
+    "cat__Air Conditioning_Yes",
+    "cat__Preferred Tenant_Company",
+    "cat__Preferred Tenant_Family"
+  ],
+  "train_size": 1400,
+  "val_size": 300,
+  "test_size": 300,
+  "best_model": "Gradient Boosting",
+  "test_metrics": {
+    "MAE": 126793.85,
+    "MSE": 23920271479.57,
+    "RMSE": 154661.8,
+    "R2": 0.7448
+  }
+}

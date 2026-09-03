@@ -1,0 +1,49 @@
+{
+  "dataset_name": "Diabetes Prediction Dataset",
+  "raw_shape": [
+    100000,
+    9
+  ],
+  "clean_shape": [
+    96146,
+    9
+  ],
+  "duplicates_dropped": 3854,
+  "encoded_features_dim": 13,
+  "feature_names_out": [
+    "num__age",
+    "num__bmi",
+    "num__HbA1c_level",
+    "num__blood_glucose_level",
+    "num__hypertension",
+    "num__heart_disease",
+    "cat__gender_Male",
+    "cat__gender_Other",
+    "cat__smoking_history_current",
+    "cat__smoking_history_ever",
+    "cat__smoking_history_former",
+    "cat__smoking_history_never",
+    "cat__smoking_history_not current"
+  ],
+  "train_size": 67302,
+  "val_size": 14422,
+  "test_size": 14422,
+  "best_model": "Random Forest",
+  "test_metrics": {
+    "Accuracy": 0.8981,
+    "Precision": 0.4601,
+    "Recall": 0.897,
+    "F1": 0.6082,
+    "ROC_AUC": 0.9743,
+    "ConfusionMatrix": [
+      [
+        11811,
+        1339
+      ],
+      [
+        131,
+        1141
+      ]
+    ]
+  }
+}

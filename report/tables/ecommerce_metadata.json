@@ -1,0 +1,35 @@
+{
+  "dataset_name": "Women's Clothing E-Commerce Reviews",
+  "raw_shape": [
+    23486,
+    11
+  ],
+  "clean_shape": [
+    23486,
+    12
+  ],
+  "d_tabular": 32,
+  "d_text_tfidf": 2500,
+  "d_combined": 2532,
+  "train_size": 16440,
+  "val_size": 3523,
+  "test_size": 3523,
+  "best_model": "Combined - Tabular + TFIDF LogReg",
+  "test_metrics": {
+    "Accuracy": 0.9341,
+    "Precision": 0.9858,
+    "Recall": 0.9334,
+    "F1": 0.9589,
+    "ROC_AUC": 0.9737,
+    "ConfusionMatrix": [
+      [
+        587,
+        39
+      ],
+      [
+        193,
+        2704
+      ]
+    ]
+  }
+}

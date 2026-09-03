@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hệ thống dự đoán thông minh - Assignment 02</title>
+  <meta name="description" content="Triển khai Hệ thống Học máy cho Dự đoán Tiểu đường, Định giá Nhà và Phân tích Hành vi Khách hàng Thương mại điện tử.">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Branding Header -->
+    <header>
+      <div class="badge-tag">PTIT • Hệ thống thông minh • Assignment 02</div>
+      <h1>Từ Biểu diễn Dữ liệu đến Triển khai Hệ thống AI</h1>
+      <p class="subtitle">Nền tảng học máy cung cấp 3 dịch vụ thông minh: chẩn đoán y khoa, định giá bất động sản, và phân tích hành vi khách hàng.</p>
+      
+      <!-- App Navigation Tabs -->
+      <nav class="tab-nav" aria-label="Application Tabs">
+        <button class="tab-btn active" data-tab="tab-diabetes" id="nav-btn-diabetes">
+          <span>🩺</span> Dự đoán bệnh tiểu đường
+        </button>
+        <button class="tab-btn" data-tab="tab-house" id="nav-btn-house">
+          <span>🏠</span> Dự đoán giá nhà
+        </button>
+        <button class="tab-btn" data-tab="tab-ecommerce" id="nav-btn-ecommerce">
+          <span>🛍️</span> Phân tích hành vi E-Commerce
+        </button>
+      </nav>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: DIABETES PREDICTION -->
+    <!-- ===================================================================== -->
+    <main>
+      <section id="tab-diabetes" class="tab-panel active">
+        <div class="app-grid">
+          <!-- Input Form Card -->
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🩺 Thuộc tính lâm sàng bệnh nhân</h2>
+              <p>Nhập các thông số sinh lý để dự đoán nguy cơ tiểu đường sử dụng mô hình Random Forest.</p>
+            </div>
+            
+            <form id="form-diabetes">
+              <div class="form-grid two-col">
+                <div class="form-group">
+                  <label for="dia-gender">Giới tính</label>
+                  <select id="dia-gender" required>
+                    <option value="Female" selected>Nữ</option>
+                    <option value="Male">Nam</option>
+                    <option value="Other">Khác</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-age">Tuổi (Năm)</label>
+                  <input type="number" id="dia-age" min="1" max="110" step="1" value="58" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-bmi">Chỉ số BMI</label>
+                  <input type="number" id="dia-bmi" min="10" max="65" step="0.1" value="31.2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-smoking">Tiền sử hút thuốc</label>
+                  <select id="dia-smoking" required>
+                    <option value="never">Chưa từng hút</option>
+                    <option value="former" selected>Từng hút (đã bỏ)</option>
+                    <option value="current">Đang hút</option>
+                    <option value="not current">Hiện không hút</option>
+                    <option value="ever">Đã từng</option>
+                    <option value="No Info">Không có thông tin</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-hba1c">Chỉ số HbA1c (%)</label>
+                  <input type="number" id="dia-hba1c" min="3.5" max="15" step="0.1" value="7.2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-glucose">Mức đường huyết (mg/dL)</label>
+                  <input type="number" id="dia-glucose" min="50" max="350" step="1" value="180" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-hypertension">Tăng huyết áp</label>
+                  <select id="dia-hypertension" required>
+                    <option value="0">Không (0)</option>
+                    <option value="1" selected>Có (1)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dia-heart-disease">Bệnh tim</label>
+                  <select id="dia-heart-disease" required>
+                    <option value="0" selected>Không (0)</option>
+                    <option value="1">Có (1)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="btn-predict-diabetes">
+                <span>⚡ Dự đoán</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Prediction Result Card -->
+          <div class="glass-card result-card">
+            <div id="diabetes-placeholder" class="result-placeholder">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <h3>Đang chờ dữ liệu bệnh nhân</h3>
+              <p>Điền các thông số lâm sàng bên trái và gửi để nhận kết quả chẩn đoán.</p>
+            </div>
+
+            <div id="diabetes-result" class="result-content">
+              <div id="dia-badge" class="status-badge badge-danger">⚠️ Đang xử lý...</div>
+              
+              <div class="result-metric-box">
+                <div class="metric-title">Xác suất dự đoán mắc bệnh</div>
+                <div id="dia-prob-huge" class="metric-value-huge negative">0.0%</div>
+                <div class="gauge-bar-wrapper">
+                  <div id="dia-gauge-fill" class="gauge-bar-fill" style="width: 0%; background-color: #ef4444;"></div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.9rem; color: #9ca3af; line-height: 1.6;">
+                <div>• <strong>Kết quả:</strong> <span id="dia-prob-label" style="color: #fff;">-</span></div>
+                <div>• <strong>Mức độ rủi ro:</strong> <span id="dia-risk-level" style="color: #fff;">-</span></div>
+                <div style="margin-top: 8px; font-style: italic; font-size: 0.8rem; color: #6b7280;">* Kết quả chỉ mang tính minh họa cho mô hình học máy, không thay thế chẩn đoán y khoa.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- TAB 2: HOUSE PRICE PREDICTION -->
+      <!-- ===================================================================== -->
+      <section id="tab-house" class="tab-panel">
+        <div class="app-grid">
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🏠 Đặc trưng Bất động sản</h2>
+              <p>Dự đoán giá trị bất động sản thông qua mô hình Gradient Boosting Regressor.</p>
+            </div>
+
+            <form id="form-house">
+              <div class="form-grid two-col">
+                <div class="form-group">
+                  <label for="house-city">Vị trí (Thành phố)</label>
+                  <select id="house-city" required>
+                    <option value="Mumbai" selected>Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Chennai">Chennai</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-area">Diện tích (sq ft)</label>
+                  <input type="number" id="house-area" min="300" max="15000" step="50" value="3200" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-bedrooms">Số phòng ngủ</label>
+                  <input type="number" id="house-bedrooms" min="1" max="10" value="4" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-bathrooms">Số phòng tắm</label>
+                  <input type="number" id="house-bathrooms" min="1" max="8" value="3" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-stories">Số tầng</label>
+                  <input type="number" id="house-stories" min="1" max="5" value="2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-parking">Chỗ đỗ xe</label>
+                  <input type="number" id="house-parking" min="0" max="5" value="2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-age">Tuổi của nhà (Năm)</label>
+                  <input type="number" id="house-age" min="0" max="80" value="6" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-furnishing">Tình trạng nội thất</label>
+                  <select id="house-furnishing" required>
+                    <option value="Furnished" selected>Đầy đủ nội thất</option>
+                    <option value="Semi-Furnished">Nội thất cơ bản</option>
+                    <option value="Unfurnished">Không nội thất</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-locality">Đánh giá khu vực (1-10)</label>
+                  <input type="number" id="house-locality" min="1" max="10" value="8" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-mainroad">Mặt đường chính</label>
+                  <select id="house-mainroad" required>
+                    <option value="Yes" selected>Có</option>
+                    <option value="No">Không</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-guestroom">Phòng dành cho khách</label>
+                  <select id="house-guestroom" required>
+                    <option value="Yes" selected>Có</option>
+                    <option value="No">Không</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-basement">Tầng hầm</label>
+                  <select id="house-basement" required>
+                    <option value="No" selected>Không</option>
+                    <option value="Yes">Có</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-watersupply">Nguồn cấp nước</label>
+                  <select id="house-watersupply" required>
+                    <option value="Corporation" selected>Nước máy thành phố</option>
+                    <option value="Borewell">Nước giếng khoan</option>
+                    <option value="Both">Cả hai</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="house-ac">Điều hòa không khí</label>
+                  <select id="house-ac" required>
+                    <option value="Yes" selected>Có</option>
+                    <option value="No">Không</option>
+                  </select>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="house-tenant">Khách thuê ưu tiên</label>
+                  <select id="house-tenant" required>
+                    <option value="Family" selected>Gia đình</option>
+                    <option value="Bachelor">Người độc thân</option>
+                    <option value="Company">Công ty</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="btn-predict-house">
+                <span>⚡ Định giá Bất động sản</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="glass-card result-card">
+            <div id="house-placeholder" class="result-placeholder">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+              </svg>
+              <h3>Đang chờ định giá</h3>
+              <p>Điền các thuộc tính bất động sản bên trái để tính toán giá trị thị trường.</p>
+            </div>
+
+            <div id="house-result" class="result-content">
+              <div class="status-badge badge-info">📈 Kết quả định giá thị trường</div>
+              
+              <div class="result-metric-box">
+                <div class="metric-title">Giá thị trường dự đoán</div>
+                <div id="house-price-huge" class="metric-value-huge neutral">$0.00</div>
+              </div>
+
+              <div style="font-size: 0.9rem; color: #9ca3af; line-height: 1.6;">
+                <div>• <strong>Giá trị chính xác:</strong> <span id="house-raw-price" style="color: #fff;">-</span></div>
+                <div>• <strong>Đơn vị tiền tệ:</strong> USD ($)</div>
+                <div>• <strong>Mô hình được sử dụng:</strong> Gradient Boosting Regressor ($R^2 = 0.7448$)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- TAB 3: E-COMMERCE REVIEWS -->
+      <!-- ===================================================================== -->
+      <section id="tab-ecommerce" class="tab-panel">
+        <div class="app-grid">
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🛍️ Phân tích Hành vi Khách hàng</h2>
+              <p>Dự đoán khả năng khách hàng đề xuất sản phẩm sử dụng mô hình kết hợp Multimodal Tabular + TF-IDF.</p>
+            </div>
+
+            <form id="form-ecommerce">
+              <div class="form-grid two-col">
+                <div class="form-group">
+                  <label for="ecom-age">Tuổi khách hàng</label>
+                  <input type="number" id="ecom-age" min="18" max="100" value="34" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="ecom-rating">Điểm đánh giá (1 - 5 Sao)</label>
+                  <select id="ecom-rating" required>
+                    <option value="5" selected>⭐⭐⭐⭐⭐ (5 Sao)</option>
+                    <option value="4">⭐⭐⭐⭐ (4 Sao)</option>
+                    <option value="3">⭐⭐⭐ (3 Sao)</option>
+                    <option value="2">⭐⭐ (2 Sao)</option>
+                    <option value="1">⭐ (1 Sao)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="ecom-feedback">Số phản hồi tích cực (Hữu ích)</label>
+                  <input type="number" id="ecom-feedback" min="0" max="100" value="3" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="ecom-division">Nhóm sản phẩm</label>
+                  <select id="ecom-division" required>
+                    <option value="General" selected>General</option>
+                    <option value="General Petite">General Petite</option>
+                    <option value="Initmates">Initmates</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="ecom-dept">Ngành hàng</label>
+                  <select id="ecom-dept" required>
+                    <option value="Dresses" selected>Dresses</option>
+                    <option value="Tops">Tops</option>
+                    <option value="Bottoms">Bottoms</option>
+                    <option value="Intimate">Intimate</option>
+                    <option value="Jackets">Jackets</option>
+                    <option value="Trend">Trend</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="ecom-class">Loại sản phẩm</label>
+                  <input type="text" id="ecom-class" value="Dresses" required>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="ecom-review">Nội dung đánh giá (Text)</label>
+                  <textarea id="ecom-review" placeholder="Nội dung đánh giá nên nhập bằng tiếng Anh vì mô hình TF-IDF được huấn luyện trên tập dữ liệu tiếng Anh..." required>Absolutely loved this gorgeous dress! The fabric is lightweight, breathable, and fits like a dream.</textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="btn-predict-ecommerce">
+                <span>⚡ Phân tích / Dự đoán</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="glass-card result-card">
+            <div id="ecom-placeholder" class="result-placeholder">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h3>Đang chờ dữ liệu phân tích</h3>
+              <p>Nhập đánh giá và thông tin khách hàng để dự đoán khả năng đề xuất sản phẩm.</p>
+            </div>
+
+            <div id="ecom-result" class="result-content">
+              <div id="ecom-badge" class="status-badge badge-success">⭐ Đang xử lý...</div>
+              
+              <div class="result-metric-box">
+                <div class="metric-title">Xác suất đề xuất sản phẩm</div>
+                <div id="ecom-conf-huge" class="metric-value-huge positive">0.0%</div>
+                <div class="gauge-bar-wrapper">
+                  <div id="ecom-gauge-fill" class="gauge-bar-fill" style="width: 0%; background-color: #10b981;"></div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.9rem; color: #9ca3af; line-height: 1.6;">
+                <div>• <strong>Sắc thái tình cảm:</strong> <span id="ecom-sentiment" style="color: #fff;">-</span></div>
+                <div>• <strong>Cấu trúc mô hình:</strong> Tabular + TF-IDF Logistic Regression</div>
+                <div>• <strong>Độ đo đánh giá chính:</strong> ROC-AUC (0.9737)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Information -->
+    <footer>
+      <p>PTIT Hệ thống Thông minh (Assignment 02) • Xây dựng bằng FastAPI & Scikit-Learn.</p>
+      <p>Tài liệu API tương tác tại <a href="/docs" target="_blank">/docs (Swagger UI)</a> • Truy cập mượt mà trên di động qua mạng LAN.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript Controller -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

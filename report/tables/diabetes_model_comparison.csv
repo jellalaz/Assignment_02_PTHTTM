@@ -1,0 +1,7 @@
+Model,Accuracy,Precision,Recall,F1-Score,ROC-AUC,Train_Time_s
+Dummy Baseline,0.84,0.0876,0.0865,0.0871,0.4997,0.05
+Logistic Regression,0.885,0.4271,0.8892,0.577,0.9624,0.65
+KNN,0.9575,0.8601,0.6187,0.7197,0.9074,0.16
+Decision Tree,0.8315,0.3387,0.956,0.5002,0.9677,0.11
+Random Forest,0.9022,0.4719,0.9167,0.623,0.9757,0.94
+SVM (LinearSVC),0.957,0.8446,0.6281,0.7205,0.9624,1.79

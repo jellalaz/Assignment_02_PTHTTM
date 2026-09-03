@@ -1,0 +1,9 @@
+Model,Representation,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+Tabular - Logistic Regression,Tabular Only,0.9466,0.9913,0.9434,0.9667,0.9818
+Tabular - Decision Tree,Tabular Only,0.9446,0.9898,0.9424,0.9655,0.9778
+Tabular - Random Forest,Tabular Only,0.9466,0.9913,0.9434,0.9667,0.9793
+Tabular - SVM (LinearSVC),Tabular Only,0.9441,0.9764,0.9551,0.9656,0.9817
+Tabular - Gradient Boosting,Tabular Only,0.9418,0.977,0.9517,0.9642,0.9819
+Text - TFIDF + LogisticReg,Text TF-IDF Only,0.8799,0.9657,0.8854,0.9238,0.9422
+Text - TFIDF + LinearSVC,Text TF-IDF Only,0.9018,0.9192,0.9655,0.9418,0.9318
+Combined - Tabular + TFIDF LogReg,Tabular + Text Combined,0.9466,0.9895,0.9451,0.9668,0.9877
