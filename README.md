@@ -1,182 +1,106 @@
-# Assignment 02: From Data Representation to Deployable Intelligent Systems
+# Intelligent System Development Pipeline 🚀
+
+[![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.4.1-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Neo4j](https://img.shields.io/badge/Neo4j-5.12-008CC1?logo=neo4j&logoColor=white)](https://neo4j.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://docker.com)
 
 **Posts and Telecommunications Institute of Technology (PTIT)**  
-**Course:** Intelligent System Development / Phát triển các hệ thống thông minh  
+**Course:** Intelligent System Development (Phát triển các hệ thống thông minh)  
 **Instructor:** Dinh Que Tran, Ph.D., Assoc. Prof.  
-**Environment:** `ai-env` (Conda Python 3.12.13)  
-**Dataset Source:** 100% Real Kaggle Datasets (No synthetic data)
 
 ---
 
-## 1. Overview & Applications
+## 🎯 1. Overview & Applications
 
-This project implements an end-to-end intelligent system pipeline:
-$$\text{Raw Data} \longrightarrow \text{Understand} \longrightarrow \text{Clean} \longrightarrow \text{Represent} \longrightarrow \text{Learn} \longrightarrow \text{Evaluate} \longrightarrow \text{Persist} \longrightarrow \text{Deploy}$$
+This project implements a complete, end-to-end intelligent system pipeline bridging the gap between raw datasets and deployable, production-ready web services.
 
-Covering three intelligent applications:
-1. **Diabetes Prediction (Clinical Tabular Classification):**
-   - **Dataset:** `ghnshymsaini/diabetes-prediction-dataset` (100,000 patient records).
-   - **Target:** `diabetes` ($0$ = Non-diabetic, $1$ = Diabetic).
-   - **Best Model:** **Random Forest Classifier** (Recall = 89.70%, ROC-AUC = 0.9743 on test set).
-2. **House Price Prediction (Real Estate Tabular Regression):**
-   - **Dataset:** `chershi/house-price-prediction-dataset-2000-rows` (2,000 property records).
-   - **Target:** `Price` (USD valuation).
-   - **Best Model:** **Gradient Boosting Regressor** ($R^2 = 0.7448$, MAE = $126,793.85 on test set).
-3. **E-Commerce Customer Behavior & Interest Discovery (Multimodal Tabular + NLP Classification):**
-   - **Dataset:** `nicapotato/womens-ecommerce-clothing-reviews` (23,486 clothing reviews).
-   - **Target:** `Recommended IND` ($1$ = Recommended, $0$ = Not Recommended).
-   - **Best Model:** **Combined Tabular + TF-IDF Logistic Regression** (ROC-AUC = 0.9737, Accuracy = 93.41% on test set).
+$$\text{Raw Data} \longrightarrow \text{Clean} \longrightarrow \text{Represent} \longrightarrow \text{Learn} \longrightarrow \text{Evaluate} \longrightarrow \text{Deploy}$$
 
----
+The system integrates **three highly diverse intelligent applications**, utilizing both tabular and natural language processing techniques on **100% real Kaggle datasets**:
 
-## 2. Project Directory Structure
+### 🩺 A. Diabetes Prediction (Clinical Classification)
+- **Dataset:** 100,000 patient records (Imbalanced).
+- **Techniques:** Standard Scaling, One-Hot Encoding, SMOTE / Balanced Weights.
+- **Best Model:** **Random Forest Classifier** (Recall = 89.70%, ROC-AUC = 0.9743).
+- **Business Value:** Prevents false negatives in early diabetes screening.
 
-```text
-Assignment_02/
-├── data/
-│   ├── raw/
-│   │   ├── diabetes/diabetes_prediction_dataset.csv
-│   │   ├── house_price/enhanced_house_price_dataset.csv
-│   │   └── ecommerce/Womens Clothing E-Commerce Reviews.csv
-│   └── processed/
-│       ├── diabetes/diabetes_cleaned.csv
-│       ├── house_price/house_price_cleaned.csv
-│       └── ecommerce/ecommerce_cleaned.csv
-├── notebooks/
-│   ├── 01_diabetes.ipynb          # Executed with ai-env kernel (25 sections)
-│   ├── 02_house_price.ipynb       # Executed with ai-env kernel (25 sections)
-│   └── 03_ecommerce.ipynb         # Executed with ai-env kernel (25 sections)
-├── src/
-│   ├── diabetes/pipeline.py       # Diabetes training & evaluation pipeline
-│   ├── house_price/pipeline.py    # House price regression pipeline
-│   └── ecommerce/pipeline.py      # E-Commerce multimodal pipeline
-├── models/
-│   ├── diabetes/diabetes_pipeline.joblib
-│   ├── house_price/house_pipeline.joblib
-│   └── ecommerce/ecommerce_pipeline.joblib
-├── api/
-│   ├── main.py                    # Unified FastAPI REST API & Web Server
-│   ├── schemas.py                 # Pydantic v2 validation models
-│   └── test_api.py                # Automated pytest suite (100% pass)
-├── web/
-│   ├── templates/index.html       # Responsive Web dashboard template
-│   └── static/
-│       ├── css/style.css          # Sleek glassmorphism dark theme
-│       └── js/app.js              # Relative API client controller
-├── screenshots/
-│   ├── web/                       # Desktop verification screenshots (1280x900)
-│   ├── mobile/                    # Responsive mobile screenshots (390x844 viewport)
-│   ├── api/                       # Swagger UI documentation screenshots
-│   └── README.md                  # Catalog mapping screenshots to report sections
-├── figures/                       # High-resolution EDA and evaluation PNG charts
-│   ├── diabetes/
-│   ├── house_price/
-│   └── ecommerce/
-├── report/
-│   ├── report_notes.md            # Comprehensive 9-chapter technical report
-│   ├── discussion_questions.md    # Authentic answers to all 21 discussion questions
-│   └── tables/                    # CSV & JSON evaluation metadata tables
-├── scripts/
-│   ├── download_datasets.py       # Kagglehub automated dataset download
-│   ├── capture_all_screenshots.py # Selenium headless browser automation
-│   └── neo4j_demo.py              # Optional Neo4j graph demonstration
-├── TODO.md                        # Granular progress checklist
-├── DATASETS.md                    # Verified dataset profiles and shapes
-├── requirements.txt               # Project dependency specification
-├── environment_freeze.txt         # Exact pip freeze snapshot
-├── MOBILE_ACCESS_GUIDE.md         # LAN Wi-Fi setup guide for mobile devices
-├── NEO4J_SETUP_GUIDE.md           # Neo4j setup and Cypher graph queries
-└── FINAL_CHECKLIST.md             # Honest deliverable compliance audit
-```
+### 🏠 B. House Price Prediction (Real Estate Regression)
+- **Dataset:** 2,000 highly diverse property records.
+- **Techniques:** Outlier removal, Feature correlation mapping.
+- **Best Model:** **Gradient Boosting Regressor** ($R^2 = 0.7448$, MAE = $126,793).
+- **Business Value:** Provides highly accurate real estate valuations based on structural and locational data.
+
+### 🛍️ C. E-Commerce Customer Behavior (Multimodal Classification)
+- **Dataset:** 23,486 women's clothing reviews (Text + Tabular data).
+- **Techniques:** **TF-IDF Vectorization** (Text) + Standard Scaling (Tabular) combined via `ColumnTransformer`.
+- **Best Model:** **Logistic Regression** on Combined Features (Accuracy = 93.41%, ROC-AUC = 0.9737).
+- **Business Value:** Automatically classifies customer sentiment and product recommendation status from unstructured review text.
 
 ---
 
-## 3. Installation & Environment Setup
+## 🌐 2. Advanced Extension: Neo4j Knowledge Graph (Graph RAG)
 
-This project is strictly configured to run in the **`ai-env`** Conda environment:
+Traditional Machine Learning treats data as isolated rows. To push the boundaries of this E-commerce module, we designed a **Knowledge Graph Architecture** utilizing **Neo4j**.
 
+By converting tabular data into an interconnected graph (`Customer` $\rightarrow$ `WROTE` $\rightarrow$ `Review` $\rightarrow$ `ABOUT` $\rightarrow$ `Product`), the system is primed for **Graph RAG (Retrieval-Augmented Generation)**, allowing a Chatbot to answer complex questions like: *"What do women under 30 think about our summer dresses?"*
+
+- **Setup Guide:** See [NEO4J_SETUP_GUIDE.md](NEO4J_SETUP_GUIDE.md).
+- **Cypher Constraints:** Located in `scripts/import_graph.cypher`.
+- **Python Driver Demo:** Run `python scripts/neo4j_demo.py` to wipe, build, and simulate a Graph RAG query on your local database.
+
+---
+
+## 🏗️ 3. System Architecture & Deployment
+
+The system is deployed using a modern, decoupled architecture:
+
+1. **Inference Engine (FastAPI):** Exposes `/predict/diabetes`, `/predict/house`, and `/predict/ecommerce` endpoints. Models are pre-loaded into RAM via a `lifespan` context manager ensuring sub-10ms latency.
+2. **Data Validation:** Pydantic `v2` enforces strict type checking on all incoming JSON payloads.
+3. **Frontend Dashboard:** A responsive, Glassmorphism-styled Web UI (HTML/CSS/JS) that interacts asynchronously with the FastAPI backend via the `Fetch API`.
+4. **Mobile LAN Access:** The web dashboard is highly responsive and fully accessible via smartphone over a local Wi-Fi network (Mobile-first viewport).
+
+---
+
+## 🚀 4. Quickstart Guide
+
+### Step 1: Environment Setup
+This project strictly requires the `ai-env` Conda environment (Python 3.12).
 ```bash
-# 1. Activate the environment
 conda activate ai-env
-
-# 2. Verify Python executable and pip
-which python
-# Output: /home/jellalaz/miniconda3/envs/ai-env/bin/python
-
-# 3. Install required dependencies
 pip install -r requirements.txt
 ```
 
----
-
-## 4. Download Datasets
-
-To download and extract all three Kaggle datasets into `data/raw/`:
+### Step 2: Download & Process Datasets
 ```bash
+# Downloads raw datasets from Kaggle to data/raw/
 python scripts/download_datasets.py
-```
 
----
-
-## 5. Run ML Pipelines & Execute Notebooks
-
-To retrain all models, generate high-resolution figures, and export persisted `.joblib` pipelines:
-```bash
+# Execute pipelines to clean data and train models (exports .joblib to models/)
 python src/diabetes/pipeline.py
 python src/house_price/pipeline.py
 python src/ecommerce/pipeline.py
 ```
 
-To re-execute all three Jupyter Notebooks from start to finish with the `ai-env` kernel:
+### Step 3: Launch the API & Web Server
+Run the FastAPI application bound to `0.0.0.0` for LAN access:
 ```bash
-jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=ai-env --ExecutePreprocessor.timeout=-1 notebooks/01_diabetes.ipynb
-jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=ai-env --ExecutePreprocessor.timeout=-1 notebooks/02_house_price.ipynb
-jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=ai-env --ExecutePreprocessor.timeout=-1 notebooks/03_ecommerce.ipynb
+PYTHONPATH=. uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+- **Web Dashboard:** [http://localhost:8000/](http://localhost:8000/)
+- **Swagger UI (API Docs):** [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### Step 4: Docker Deployment (Optional)
+A highly optimized `Dockerfile` and `render.yaml` are provided for cloud deployment.
+```bash
+docker build -t intelligent-system .
+docker run -p 8000:8000 -e PORT=8000 intelligent-system
 ```
 
 ---
 
-## 6. Run API & Responsive Web Server
+## 📸 5. Automated Screenshots & Documentation
+All visual evidence (Desktop UI, Mobile Viewports, Swagger API) is automatically generated using Selenium Headless Chrome. See the `screenshots/` directory.
 
-Launch the unified FastAPI server bound to `0.0.0.0` (accessible from both localhost and LAN devices):
-```bash
-PYTHONPATH=. /home/jellalaz/miniconda3/envs/ai-env/bin/uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-- **Web Application Dashboard:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-- **Interactive Swagger Documentation:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **Health Check:** [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
-
----
-
-## 7. Automated API Testing
-
-Run the automated test suite:
-```bash
-PYTHONPATH=. /home/jellalaz/miniconda3/envs/ai-env/bin/pytest api/test_api.py -v
-```
-All 6 tests verify `200 OK` status, Pydantic schema validation, and expected inference outputs.
-
----
-
-## 8. Mobile LAN Demonstration
-
-As requested, the mobile experience is implemented as a **Responsive Mobile Web Client** accessible over the local Wi-Fi network:
-1. Ensure the server is running on `0.0.0.0:8000`.
-2. Find the host machine LAN IP: `hostname -I` (e.g., `192.168.0.105`).
-3. Connect a smartphone to the same Wi-Fi and navigate to:
-   ```text
-   http://192.168.0.105:8000/
-   ```
-4. Full instructions are provided in [MOBILE_ACCESS_GUIDE.md](file:///home/jellalaz/Documents/Jellalaz/DATA_CODE/PYTHON/Assignment_02/MOBILE_ACCESS_GUIDE.md).
-
----
-
-## 9. Captured Evidence Screenshots
-
-All screenshots were automatically captured from the live application using Selenium with Chrome Headless:
-- **Desktop Web:** `screenshots/web/web_home.png`, `diabetes_web_result.png`, `house_web_result.png`, `ecommerce_web_result.png`.
-- **Mobile Viewport (390x844):** `screenshots/mobile/mobile_home.png`, `diabetes_mobile.png`, `house_mobile.png`, `ecommerce_mobile.png`.
-- **Swagger API Docs:** `screenshots/api/swagger_docs.png`, `api_diabetes_result.png`, `api_house_result.png`, `api_ecommerce_result.png`.
-
-Detailed mappings are documented in [screenshots/README.md](file:///home/jellalaz/Documents/Jellalaz/DATA_CODE/PYTHON/Assignment_02/screenshots/README.md).
+An exhaustive **84-page Technical Report** (`report/Baocao.pdf`) is dynamically compiled using Python `python-docx`, intertwining data methodology, code snippets, and EDA visualizations.
