@@ -1,17 +1,17 @@
-# Neo4j Graph Database Setup Guide
+# Hướng dẫn Cài đặt Đồ thị Tri thức Neo4j
 
-This guide explains how to set up the **Neo4j Graph Database** extension for the E-Commerce Customer Behavior module of this project.
+Tài liệu này hướng dẫn cách cài đặt và thiết lập phần mở rộng **Cơ sở dữ liệu Đồ thị Neo4j (Neo4j Graph Database)** cho bài toán Phân tích Hành vi Khách hàng Thương mại Điện tử trong dự án này.
 
-The traditional Machine Learning models (Logistic Regression, TF-IDF) in this project treat each customer review as an isolated event. By introducing Neo4j, we convert the tabular data into a **Knowledge Graph**, linking `Customers`, `Products`, `Departments`, and `Reviews` together. This architecture serves as the foundation for an advanced **Graph RAG (Retrieval-Augmented Generation)** Chatbot.
+Thay vì sử dụng các mô hình Học máy truyền thống (Logistic Regression, TF-IDF) vốn coi mỗi đánh giá của khách hàng là một sự kiện rời rạc và độc lập, việc tích hợp Neo4j cho phép chúng ta chuyển đổi dữ liệu dạng bảng (tabular data) thành một **Đồ thị Tri thức (Knowledge Graph)**. Đồ thị này sẽ liên kết chặt chẽ các thực thể: `Khách hàng (Customers)`, `Sản phẩm (Products)`, `Ngành hàng (Departments)`, và `Đánh giá (Reviews)` lại với nhau. Đây chính là nền tảng kiến trúc tiên tiến để xây dựng một Chatbot tư vấn mua sắm sử dụng công nghệ **Graph RAG (Retrieval-Augmented Generation)**.
 
 ---
 
-## 1. Prerequisites
+## 1. Yêu cầu Cài đặt (Prerequisites)
 
-You can run Neo4j using either Docker (Recommended) or Neo4j Desktop.
+Bạn có thể chạy Neo4j bằng Docker (Khuyên dùng) hoặc cài đặt Neo4j Desktop.
 
-### Option A: Using Docker (Recommended)
-Run the following command to start a Neo4j Enterprise edition container with the APOC (Awesome Procedures on Cypher) plugin enabled:
+### Lựa chọn A: Sử dụng Docker (Khuyên dùng)
+Chạy lệnh sau trên terminal để khởi tạo một container Neo4j phiên bản Enterprise có tích hợp sẵn plugin APOC (Awesome Procedures on Cypher):
 
 ```bash
 docker run \
@@ -26,54 +26,54 @@ docker run \
     neo4j:5.12.0
 ```
 
-### Option B: Using Neo4j Desktop
-1. Download and install [Neo4j Desktop](https://neo4j.com/download/).
-2. Create a new Local DBMS and set the password to `password` (or update `scripts/neo4j_demo.py` if you use a different password).
-3. Start the database.
+### Lựa chọn B: Sử dụng Neo4j Desktop
+1. Tải và cài đặt phần mềm [Neo4j Desktop](https://neo4j.com/download/).
+2. Tạo một Database cục bộ (Local DBMS) và đặt mật khẩu là `password` (nếu đặt mật khẩu khác, bạn cần cập nhật lại trong file `scripts/neo4j_demo.py`).
+3. Nhấn Start để chạy Database.
 
 ---
 
-## 2. Importing the E-Commerce Graph
+## 2. Nạp dữ liệu Thương mại điện tử vào Đồ thị
 
-Once your database is running on `bolt://localhost:7687` (or `neo4j://localhost:7687`), you need to run the Cypher script to create the schema constraints and import sample data.
+Khi Database của bạn đã chạy ở địa chỉ `bolt://localhost:7687` (hoặc `neo4j://localhost:7687`), bạn cần chạy kịch bản Cypher để tạo các điều kiện ràng buộc (constraints) và nạp dữ liệu mẫu vào đồ thị.
 
-We provide a ready-to-use Python script that automatically connects to your local Neo4j instance, wipes any existing data, establishes the constraints, and populates the graph using the E-commerce dataset.
+Dự án đã cung cấp sẵn một đoạn mã Python tự động kết nối với cơ sở dữ liệu Neo4j cục bộ của bạn. Mã nguồn này sẽ xóa sạch dữ liệu cũ (nếu có), thiết lập ràng buộc và đưa toàn bộ dữ liệu CSV đã làm sạch vào đồ thị.
 
-Ensure your Python environment is activated:
+Đảm bảo bạn đã kích hoạt đúng môi trường Python của dự án:
 ```bash
 conda activate ai-env
 pip install neo4j pandas
 ```
 
-Run the graph construction script:
+Chạy kịch bản tự động xây dựng đồ thị:
 ```bash
 python scripts/neo4j_demo.py
 ```
 
 ---
 
-## 3. The Graph Schema
+## 3. Kiến trúc Lược đồ (Graph Schema)
 
-The Cypher script builds the following schema:
+Đoạn mã Cypher được thiết kế để tạo ra lược đồ (Schema) như sau:
 
-### Nodes (Entities)
-- `(:Customer {age: Integer})`: The shopper leaving the review.
-- `(:Product {class_name: String})`: The specific clothing item.
-- `(:Department {name: String, division: String})`: The department the product belongs to (e.g., Tops, Bottoms).
-- `(:Review {text: String, rating: Integer, recommended: Boolean})`: The actual review text and sentiment.
+### Các Nút (Nodes / Entities)
+- `(:Customer {age: Integer})`: Đại diện cho người mua hàng để lại bình luận.
+- `(:Product {class_name: String})`: Tên phân loại chi tiết của sản phẩm may mặc.
+- `(:Department {name: String, division: String})`: Ngành hàng lớn mà sản phẩm thuộc về (ví dụ: Tops, Bottoms).
+- `(:Review {text: String, rating: Integer, recommended: Boolean})`: Nội dung chi tiết của đánh giá và cảm xúc.
 
-### Relationships (Edges)
-- `(Customer)-[:WROTE]->(Review)`
-- `(Review)-[:ABOUT]->(Product)`
-- `(Product)-[:BELONGS_TO]->(Department)`
+### Các Mối quan hệ (Relationships / Edges)
+- `(Customer)-[:WROTE]->(Review)` : Khách hàng VIẾT Đánh giá.
+- `(Review)-[:ABOUT]->(Product)` : Đánh giá nói VỀ Sản phẩm.
+- `(Product)-[:BELONGS_TO]->(Department)` : Sản phẩm THUỘC VỀ Ngành hàng.
 
 ---
 
-## 4. Querying the Graph (Cypher Examples)
+## 4. Truy vấn Đồ thị (Ví dụ mã Cypher)
 
-Open your Neo4j Browser at [http://localhost:7474](http://localhost:7474) (Login: `neo4j` / `password`). Try the following Cypher queries:
+Mở trình duyệt Neo4j Browser của bạn tại địa chỉ [http://localhost:7474](http://localhost:7474) (Tài khoản: `neo4j` / Mật khẩu: `password`). Bạn có thể thử chạy các truy vấn Cypher sau:
 
-### Find Top Recommended Products in the "Dresses" Department
+### Tìm Top 5 sản phẩm được khuyên dùng nhiều nhất thuộc Ngành hàng "Váy" (Dresses)
 ```cypher
 MATCH (p:Product)-[:BELONGS_TO]->(d:Department {name: 'Dresses'})
 MATCH (r:Review {recommended: true})-[:ABOUT]->(p)
@@ -82,7 +82,7 @@ ORDER BY PositiveReviews DESC
 LIMIT 5;
 ```
 
-### Graph RAG Context: Find all reviews by customers aged 25-30 for a specific product class
+### Lấy ngữ cảnh cho Graph RAG: Tìm tất cả các đánh giá của tập Khách hàng từ 25-30 tuổi cho sản phẩm "Áo kiểu" (Blouses)
 ```cypher
 MATCH (c:Customer)-[:WROTE]->(r:Review)-[:ABOUT]->(p:Product {class_name: 'Blouses'})
 WHERE c.age >= 25 AND c.age <= 30
@@ -92,11 +92,11 @@ LIMIT 10;
 
 ---
 
-## 5. Next Steps: Graph RAG Chatbot Integration
+## 5. Hướng phát triển tiếp theo: Tích hợp Chatbot Graph RAG
 
-With this graph operational, the next architectural step is to connect an LLM (e.g., OpenAI GPT-4 or local LLaMA 3). 
+Khi cấu trúc đồ thị này đã đi vào hoạt động trơn tru, bước kiến trúc tiếp theo để hoàn thiện hệ thống là kết nối nó với một Mô hình Ngôn ngữ Lớn (LLM) như OpenAI GPT-4 hoặc LLaMA 3 cục bộ.
 
-When a user asks: *"What are the most comfortable dresses for women under 30?"*
-1. **Entity Extraction**: The LLM identifies `Product=Dresses` and `Customer.age < 30`.
-2. **Graph Retrieval**: A Cypher query fetches exactly those sub-graphs (the specific positive reviews connected to those demographics).
-3. **Augmented Generation**: The LLM synthesizes the highly-contextual retrieved review texts into a natural, conversational recommendation.
+Khi một người dùng đặt câu hỏi: *"Các khách hàng nữ dưới 30 tuổi có cảm nhận thế nào về những chiếc váy mùa hè của cửa hàng?"*
+1. **Trích xuất Thực thể (Entity Extraction)**: Mô hình LLM phân tách câu hỏi và xác định điều kiện `Product=Dresses` và `Customer.age < 30`.
+2. **Truy xuất Đồ thị (Graph Retrieval)**: Một câu truy vấn Cypher được sinh ra tự động để kéo đúng các mạng lưới đồ thị thỏa mãn điều kiện nhân khẩu học đó ra.
+3. **Sinh văn bản Tăng cường (Augmented Generation)**: LLM tổng hợp các đoạn text bình luận chất lượng cao vừa được lấy ra từ đồ thị, và tổng hợp lại thành một lời khuyên tư vấn mua sắm cực kỳ tự nhiên và mang tính cá nhân hóa cao.
