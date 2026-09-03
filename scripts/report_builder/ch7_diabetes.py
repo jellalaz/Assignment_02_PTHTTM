@@ -103,7 +103,7 @@ preprocessor = ColumnTransformer(transformers=[
         code_text=code_diab_preprocess,
         caption_text="Đoạn mã 7.1. Tiền xử lý và biểu diễn dữ liệu cho Diabetes Prediction.",
         description_items=[
-            "Đoạn mã xây dựng ColumnTransformer để xử lý song song các nhóm biến.",
+            "Sử dụng ColumnTransformer để xử lý song song các nhóm biến.",
             "Áp dụng StandardScaler cho các biến số học (tuổi, bmi, glucose) và OneHotEncoder cho các biến danh mục (giới tính, hút thuốc).",
             "Kết quả của bước này trực tiếp tạo ra không gian vector chuẩn hóa dùng để huấn luyện mô hình."
         ],
@@ -171,7 +171,7 @@ plt.show()'''
         code_text=code_feat_dist,
         caption_text="Đoạn mã 7.5. Trực quan hóa phân bố các biến lâm sàng bằng vòng lặp.",
         description_items=[
-            "Đoạn mã sử dụng vòng lặp for để tự động vẽ Histogram và đường KDE cho tất cả các biến số học.",
+            "Áp dụng vòng lặp for để tự động vẽ Histogram và đường KDE cho tất cả các biến số học.",
             "Cách tiếp cận này giúp tiết kiệm thời gian viết code lặp lại, đồng thời tạo ra mạng lưới biểu đồ tổng quan (Grid plot) được trình bày ở nhóm hình bên dưới."
         ],
         source_file="notebooks/01_diabetes.ipynb"

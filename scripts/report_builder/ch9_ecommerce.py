@@ -221,7 +221,7 @@ plt.show()'''
         code_text=code_ecom_rep,
         caption_text="Đoạn mã 9.6. So sánh hiệu năng giữa phương pháp Tabular, Text và Combined.",
         description_items=[
-            "Đoạn mã trực quan hóa DataFrame chứa kết quả Accuracy của 3 phương pháp huấn luyện.",
+            "Trực quan hóa DataFrame chứa kết quả Accuracy của 3 phương pháp huấn luyện.",
             "Đường nét đứt màu đỏ (axhline) được chèn thêm để làm nổi bật mốc hiệu năng xuất sắc nhất (>93%) đạt được khi kết hợp cả dữ liệu dạng bảng và văn bản."
         ],
         source_file="notebooks/03_ecommerce.ipynb"
@@ -258,7 +258,7 @@ plt.show()'''
         code_text=code_ecom_cm,
         caption_text="Đoạn mã 9.7. Ma trận nhầm lẫn (Confusion Matrix) trên tập Test độc lập.",
         description_items=[
-            "Đoạn mã kiểm định năng lực mô hình Logistic Regression trên tập đặc trưng kết hợp.",
+            "Kiểm định mô hình Logistic Regression trên tập đặc trưng kết hợp.",
             "Ma trận nhiệt (Heatmap) giúp đánh giá trực quan tỷ lệ nhận diện sai lệch các đánh giá tiêu cực (Not Recommended)."
         ],
         source_file="notebooks/03_ecommerce.ipynb"

@@ -161,7 +161,7 @@ plt.show()'''
         code_text=code_house_corr,
         caption_text="Đoạn mã 8.4. Tính toán và trực quan hóa tương quan tuyến tính.",
         description_items=[
-            "Đoạn mã lọc ra các biến số học cốt lõi như Diện tích (Area), Số phòng ngủ (Bedrooms) để đo lường mức độ tác động lên Giá nhà.",
+            "Lọc ra các biến số học cốt lõi như Diện tích (Area), Số phòng ngủ (Bedrooms) để đo lường mức độ tác động lên Giá nhà.",
             "Bản đồ nhiệt (Heatmap) giúp dễ dàng nhận định Diện tích (Area) là yếu tố quyết định lớn nhất đối với sự thay đổi của giá bán."
         ],
         source_file="notebooks/02_house_price.ipynb"
