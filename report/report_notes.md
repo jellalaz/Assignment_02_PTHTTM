@@ -210,7 +210,7 @@ Kiểm tra nạp lại (`joblib.load`) và suy luận tức thời bảo đảm 
 - Thiết kế giao diện hiện đại phong cách Dark Mode Glassmorphism tại `web/templates/index.html` và `web/static/css/style.css`.
 - **Liên kết dự án:**
   - **Mã nguồn GitHub:** [https://github.com/jellalaz/Assignment_02_PTHTTM](https://github.com/jellalaz/Assignment_02_PTHTTM)
-  - **Truy cập Web/App nội bộ (LAN):** `http://172.18.2.105:8000/`
+  - **Truy cập Web/App nội bộ (LAN):** `http://192.168.0.105:8000/`
 - Giao diện đáp ứng tiêu chuẩn Mobile-First (khung nhìn 390x844), bố cục 1 cột, không tràn khung ngang.
 
 ---

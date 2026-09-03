@@ -6,7 +6,7 @@ def add_links_to_docx(filepath):
     
     for p in doc.paragraphs:
         if "Điện thoại và máy tính chỉ cần kết nối cùng một mạng Wi-Fi." in p.text:
-            p.text = "Giao diện Web/App Mobile qua LAN có thể truy cập nội bộ tại địa chỉ: http://172.18.2.105:8000/ \n" \
+            p.text = "Giao diện Web/App Mobile qua LAN có thể truy cập nội bộ tại địa chỉ: http://192.168.0.105:8000/ \n" \
                      "Mã nguồn toàn bộ dự án đã được lưu trữ và triển khai trên GitHub tại địa chỉ: https://github.com/jellalaz/Assignment_02_PTHTTM"
             for run in p.runs:
                 run.font.name = 'Times New Roman'
