@@ -166,7 +166,7 @@ async def predict_house_price(payload: HousePriceRequest):
 
     try:
         input_data = pd.DataFrame([{
-            "Area": payload.Area * 10.7639, # m2 to sq ft
+            "Area": payload.Area,
             "Bedrooms": payload.Bedrooms,
             "Bathrooms": payload.Bathrooms,
             "Stories": payload.Stories,
@@ -184,15 +184,12 @@ async def predict_house_price(payload: HousePriceRequest):
         }])
 
         model = loaded_models["house_price"]
-        pred_price_usd = float(model.predict(input_data)[0])
-        pred_price_vnd = pred_price_usd * 25400 # 1 USD = 25,400 VNĐ
-
-        formatted_price = f"{pred_price_vnd:,.0f} ₫".replace(",", ".")
+        pred_price = float(model.predict(input_data)[0])
 
         return {
-            "predicted_price": round(pred_price_vnd, 2),
-            "formatted_price": formatted_price,
-            "currency": "VNĐ"
+            "predicted_price": round(pred_price, 2),
+            "formatted_price": f"${pred_price:,.2f}",
+            "currency": "USD"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")

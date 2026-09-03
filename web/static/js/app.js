@@ -169,7 +169,7 @@ function initHouseForm() {
     resultContainer.classList.add('show');
 
     document.getElementById('house-price-huge').innerText = data.formatted_price;
-    document.getElementById('house-raw-price').innerText = data.predicted_price.toLocaleString() + ' ₫';
+    document.getElementById('house-raw-price').innerText = '$' + data.predicted_price.toLocaleString();
   }
 }
 
