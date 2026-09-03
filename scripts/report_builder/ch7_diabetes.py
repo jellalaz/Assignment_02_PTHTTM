@@ -241,9 +241,31 @@ print(classification_report(y_val, y_pred))'''
         ml_implication="Khẳng định tầm quan trọng của việc điều chỉnh trọng số lớp trong bài toán chẩn đoán y tế."
     )
 
+
+    code_cm = '''cm = confusion_matrix(y_test, y_test_pred)
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+            xticklabels=["Dự đoán: Không mắc", "Dự đoán: Mắc bệnh"],
+            yticklabels=["Thực tế: Không mắc", "Thực tế: Mắc bệnh"])
+plt.title("Confusion Matrix trên Test Set — Random Forest")
+plt.tight_layout()
+plt.show()'''
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_cm,
+        caption_text="Đoạn mã 7.3. Trực quan hóa Ma trận nhầm lẫn (Confusion Matrix).",
+        description_items=[
+            "Sử dụng thư viện Seaborn để vẽ ma trận nhiệt hiển thị kết quả phân loại.",
+            "Làm rõ số lượng dự đoán đúng/sai cho từng nhãn cụ thể, từ đó phân tích sâu về False Positives và False Negatives."
+        ],
+        source_file="notebooks/01_diabetes.ipynb"
+    )
+
     add_figure_with_notes(
         doc,
         "figures/diabetes/confusion_matrix.png",
+
         "Hình 7.7. Ma trận nhầm lẫn (Confusion Matrix) của mô hình Random Forest trên tập Test độc lập.",
         [
             "Trên tổng số 14,422 bệnh nhân kiểm thử độc lập, mô hình phát hiện chính xác 1,141 ca mắc bệnh thực sự (True Positives).",

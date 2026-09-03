@@ -104,9 +104,41 @@ async def predict_diabetes(data: DiabetesInput, request: Request):
     add_styled_heading(doc, "6.5. Giao diện người dùng Web Application", 2)
     add_body_p(doc, "Giao diện Web được thiết kế theo phong cách Dark Mode Glassmorphism hiện đại tại web/templates/index.html và web/static/css/style.css, mang lại trải nghiệm tương tác cao cấp cho người dùng trên máy tính để bàn.")
 
+
+    code_web = '''// Gửi dữ liệu bệnh nhân từ Form HTML lên máy chủ
+const payload = {
+  gender: document.getElementById('dia-gender').value,
+  age: parseFloat(document.getElementById('dia-age').value),
+  bmi: parseFloat(document.getElementById('dia-bmi').value),
+  // ... các chỉ số lâm sàng khác ...
+};
+
+// Gọi REST API bất đồng bộ bằng Fetch API
+const res = await fetch('/predict/diabetes', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload)
+});
+
+const data = await res.json();
+displayDiabetesResult(data);  // Cập nhật giao diện với xác suất trả về'''
+
+    add_code_snippet_with_notes(
+        doc,
+        code_text=code_web,
+        caption_text="Đoạn mã 6.3. Gọi REST API từ giao diện Client (JavaScript).",
+        description_items=[
+            "Đóng gói dữ liệu người dùng nhập thành định dạng JSON.",
+            "Sử dụng Fetch API bất đồng bộ để gọi máy chủ dự đoán và lấy kết quả mà không cần tải lại trang.",
+            "Tương thích hoàn toàn khi triển khai public hoặc mạng nội bộ LAN."
+        ],
+        source_file="web/static/js/app.js"
+    )
+
     add_figure_with_notes(
         doc,
         "screenshots/web/web_home.png",
+
         "Hình 6.2. Giao diện trang chủ Web Application trên máy tính để bàn (Desktop Card UI).",
         [
             "Trang chủ tích hợp cả 3 ứng dụng thông minh trong một màn hình điều khiển thống nhất.",
